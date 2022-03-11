@@ -17,7 +17,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 public class FXMLDocumentController implements Initializable {
     
     @FXML
@@ -28,7 +27,16 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TableColumn<Lab, String> testName;
     @FXML private TableColumn<Lab, String> lab;
     @FXML private TableView<Lab> tableviewangio;
-   
+    @FXML private TableColumn<Lab, String> testCode1;
+    @FXML private TableColumn<Lab, String> testName1;
+    @FXML private TableColumn<Lab, String> lab1;
+    @FXML private TableView<Lab> tableviewselectedlist;
+
+    
+    @FXML private TableColumn<Lab, String> SelecttestCode;
+    @FXML private TableColumn<Lab, String> SelecttestName;
+    @FXML private TableColumn<Lab, String> Selectlab;
+    
                   
     //Observable list to store data
     private final ObservableList<Lab> dataList = FXCollections.observableArrayList();
@@ -40,6 +48,10 @@ public class FXMLDocumentController implements Initializable {
     	testCode.setCellValueFactory(new PropertyValueFactory<>("testCode"));       
     	testName.setCellValueFactory(new PropertyValueFactory<>("testName"));        
     	lab.setCellValueFactory(new PropertyValueFactory<>("lab"));        
+    	testCode1.setCellValueFactory(new PropertyValueFactory<>("testCode"));       
+    	testName1.setCellValueFactory(new PropertyValueFactory<>("testName"));        
+    	lab1.setCellValueFactory(new PropertyValueFactory<>("lab"));        
+        
         
     
         String LabTest[][]=new String[500][6];
@@ -97,9 +109,38 @@ public class FXMLDocumentController implements Initializable {
 		
 		// 5. Add sorted (and filtered) data to the table.
 		tableview.setItems(sortedData);
-
-     
+		
+		// Add data in Table Angio Lab.
+		tableviewangio.setItems(dataList);     
     }
+    @FXML
+	private void displaySelected(MouseEvent event) {
+		Lab person = tableview.getSelectionModel().getSelectedItem();
+		if(person == null) {
+			filterField.setText(" ");
+		}else
+		{
+			String code=person.getTestCode();
+			String name=person.getTestName();
+			String lab=person.getLab();
+			filterField.setText(name+"("+lab+")");
+			
+		}
+		
+		
+	}
+    
+    
+    
+
+    
+    
+    @FXML
+    private void handleButtonAction(ActionEvent event) {
+    	
+    	
+    }
+
 
     
 }
