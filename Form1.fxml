@@ -9,6 +9,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLDocumentController">
    <children>
@@ -43,15 +45,16 @@
                     </columns>
                   </TableView>
                   <TextField fx:id="filterField" layoutX="109.0" layoutY="135.0" prefHeight="25.0" prefWidth="679.0" promptText="Search Test/Lab Name" />
-                  <Button layoutX="794.0" layoutY="135.0" mnemonicParsing="false" text="Add" />
-                  <TitledPane animated="false" collapsible="false" expanded="false" layoutX="3.0" layoutY="294.0" prefHeight="143.0" prefWidth="829.0" text="Selected Test Name/Lab Name">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </TitledPane>
+                  <Button layoutX="794.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Add" />
+                  <VBox fx:id="aaa" layoutX="4.0" layoutY="293.0" prefHeight="129.0" prefWidth="829.0">
+                     <children>
+                        <Label text="Selected Test Name:">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                     </children></VBox>
+                  <Button layoutX="327.0" layoutY="422.0" mnemonicParsing="false" text="Preview" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="313.0" prefWidth="525.0">
