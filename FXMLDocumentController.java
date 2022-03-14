@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -17,8 +18,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
 public class FXMLDocumentController implements Initializable {
-    
+	
+	@FXML VBox aaa;
+	
     @FXML
     private Label label;
     @FXML private TextField filterField;
@@ -37,7 +44,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TableColumn<Lab, String> SelecttestName;
     @FXML private TableColumn<Lab, String> Selectlab;
     
-                  
     //Observable list to store data
     private final ObservableList<Lab> dataList = FXCollections.observableArrayList();
     
@@ -113,6 +119,7 @@ public class FXMLDocumentController implements Initializable {
 		// Add data in Table Angio Lab.
 		tableviewangio.setItems(dataList);     
     }
+    
     @FXML
 	private void displaySelected(MouseEvent event) {
 		Lab person = tableview.getSelectionModel().getSelectedItem();
@@ -120,27 +127,22 @@ public class FXMLDocumentController implements Initializable {
 			filterField.setText(" ");
 		}else
 		{
-			String code=person.getTestCode();
+			String code = person.getTestCode();
 			String name=person.getTestName();
 			String lab=person.getLab();
-			filterField.setText(name+"("+lab+")");
-			
+			filterField.setPromptText("("+code+")"+name + " (" + lab + ")");
 		}
-		
-		
 	}
-    
-    
-    
-
-    
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
-    	
-    	
+    	Lab person = tableview.getSelectionModel().getSelectedItem();
+    	String code = person.getTestCode();
+    	String name=person.getTestName();
+    	String lab=person.getLab();
+    	filterField.setText("");
+		Label lll = new Label("("+code+")"+name + " (" + lab + ")" + "\t");
+    	aaa.getChildren().add(lll);
     }
-
-
     
 }
