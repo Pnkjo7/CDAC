@@ -1,5 +1,4 @@
 package application;
-
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,12 +18,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class FXMLDocumentController implements Initializable {
 	
 	@FXML VBox aaa;
+	
+    @FXML private TableColumn<Lab, String> cod;
+
+	
 	
     @FXML
     private Label label;
@@ -37,28 +39,41 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TableColumn<Lab, String> testCode1;
     @FXML private TableColumn<Lab, String> testName1;
     @FXML private TableColumn<Lab, String> lab1;
+    @FXML private TableColumn<Lab, String> testCode2;
+    @FXML private TableColumn<Lab, String> testName2;
+    @FXML private TableColumn<Lab, String> lab2;
+    
     @FXML private TableView<Lab> tableviewselectedlist;
 
     
-    @FXML private TableColumn<Lab, String> SelecttestCode;
-    @FXML private TableColumn<Lab, String> SelecttestName;
-    @FXML private TableColumn<Lab, String> Selectlab;
+
+    
+    
+    private final ObservableList<Lab> dat = FXCollections.observableArrayList();
+
     
     //Observable list to store data
     private final ObservableList<Lab> dataList = FXCollections.observableArrayList();
     
     
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {      
                                
+    	//cod.setCellValueFactory(new PropertyValueFactory<>("cod"));       
+
+    	
     	testCode.setCellValueFactory(new PropertyValueFactory<>("testCode"));       
     	testName.setCellValueFactory(new PropertyValueFactory<>("testName"));        
     	lab.setCellValueFactory(new PropertyValueFactory<>("lab"));        
+    	
     	testCode1.setCellValueFactory(new PropertyValueFactory<>("testCode"));       
     	testName1.setCellValueFactory(new PropertyValueFactory<>("testName"));        
     	lab1.setCellValueFactory(new PropertyValueFactory<>("lab"));        
-        
-        
+           
+    	testCode2.setCellValueFactory(new PropertyValueFactory<>("testCode"));       
+    	testName2.setCellValueFactory(new PropertyValueFactory<>("testName"));        
+    	lab2.setCellValueFactory(new PropertyValueFactory<>("lab"));    
     
         String LabTest[][]=new String[500][6];
         File masterfile = new File("Lab_Master.txt");
@@ -75,6 +90,10 @@ public class FXMLDocumentController implements Initializable {
     		    	 LabTest[loc][3]=""+st.nextToken();
     		       
     		         dataList.addAll(new Lab(LabTest[loc][0]+LabTest[loc][2], LabTest[loc][3], LabTest[loc][1]));
+    		        
+    		     //    dat.addAll(new Lab(LabTest[loc][0]+LabTest[loc][2], LabTest[loc][3], LabTest[loc][1]));
+     		        
+    		         
     		         loc++;
     	}		
     		}
@@ -117,7 +136,8 @@ public class FXMLDocumentController implements Initializable {
 		tableview.setItems(sortedData);
 		
 		// Add data in Table Angio Lab.
-		tableviewangio.setItems(dataList);     
+		tableviewangio.setItems(dataList);   
+		
     }
     
     @FXML
@@ -130,19 +150,29 @@ public class FXMLDocumentController implements Initializable {
 			String code = person.getTestCode();
 			String name=person.getTestName();
 			String lab=person.getLab();
-			filterField.setPromptText("("+code+")"+name + " (" + lab + ")");
+			filterField.setText(name);
 		}
 	}
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
+    	
+    	
     	Lab person = tableview.getSelectionModel().getSelectedItem();
-    	String code = person.getTestCode();
-    	String name=person.getTestName();
-    	String lab=person.getLab();
+    	String bcode = person.getTestCode();
+    	String bname=person.getTestName();
+    	String blab=person.getLab();
+    	
     	filterField.setText("");
-		Label lll = new Label("("+code+")"+name + " (" + lab + ")" + "\t");
-    	aaa.getChildren().add(lll);
+    	
+    	
+    	
+    	dat.add(new Lab(bcode,bname,blab));
+    
+    	tableviewselectedlist.setItems(dat);
+    	
+    	
+    	
     }
     
 }
