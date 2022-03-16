@@ -40,8 +40,8 @@
                   <TableView fx:id="tableview" layoutX="3.0" layoutY="164.0" onMouseClicked="#displaySelected" prefHeight="129.0" prefWidth="829.0">
                     <columns>
                       <TableColumn fx:id="testCode" prefWidth="75.0" text="ID" />
-                      <TableColumn fx:id="testName" prefWidth="216.00003051757812" text="Test/Group" />
-                        <TableColumn fx:id="lab" prefWidth="535.999989827474" text="Laboratory" />
+                      <TableColumn fx:id="testName" prefWidth="360.6666717529297" text="Test/Group" />
+                        <TableColumn fx:id="lab" prefWidth="391.9999694824219" text="Laboratory" />
                     </columns>
                   </TableView>
                   <TextField fx:id="filterField" layoutX="109.0" layoutY="135.0" prefHeight="25.0" prefWidth="679.0" promptText="Search Test/Lab Name" />
@@ -53,6 +53,13 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
+                        <TableView fx:id="tableviewselectedlist" prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn fx:id="testCode2" prefWidth="77.99996709823608" text="ID" />
+                              <TableColumn fx:id="testName2" prefWidth="358.0000534057617" text="Test/Group" />
+                              <TableColumn fx:id="lab2" prefWidth="391.3333638509115" text="Laboratory" />
+                          </columns>
+                        </TableView>
                      </children></VBox>
                   <Button layoutX="327.0" layoutY="422.0" mnemonicParsing="false" text="Preview" />
                </children>
