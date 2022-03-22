@@ -1,15 +1,26 @@
 package application;
+
 import javafx.beans.property.SimpleStringProperty;
 
 public class Lab {    
-    private  final SimpleStringProperty testCode;
-    private  final SimpleStringProperty testName;
-    private  final SimpleStringProperty lab;
+
+    private SimpleStringProperty cod;
+
+    
+	protected SimpleStringProperty testCode;
+	protected SimpleStringProperty testName;
+	protected SimpleStringProperty lab;
     
     
+ 
     
-    Lab(String ID, String TESTNAME, String LAB)
+    public Lab() {
+	}
+
+
+	public Lab(String ID, String TESTNAME, String LAB)
     {      
+       this.cod = new SimpleStringProperty();
        this.testCode = new SimpleStringProperty(ID);
        this.testName = new SimpleStringProperty(TESTNAME);
        this.lab =  new SimpleStringProperty(LAB);
@@ -43,5 +54,10 @@ public class Lab {
     public void setLab(String LAB) {
         lab.set(LAB);
     }
+
+
+	public SimpleStringProperty getCod() {
+		return cod;
+	}
 
     }
