@@ -1,6 +1,8 @@
 package application;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -12,11 +14,13 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
@@ -25,6 +29,8 @@ public class FXMLDocumentController implements Initializable {
 	@FXML VBox aaa;
 	
     @FXML private TableColumn<Lab, String> cod;
+   
+    @FXML private Button btn;
 
 	
 	
@@ -91,8 +97,6 @@ public class FXMLDocumentController implements Initializable {
     		       
     		         dataList.addAll(new Lab(LabTest[loc][0]+LabTest[loc][2], LabTest[loc][3], LabTest[loc][1]));
     		        
-    		     //    dat.addAll(new Lab(LabTest[loc][0]+LabTest[loc][2], LabTest[loc][3], LabTest[loc][1]));
-     		        
     		         
     		         loc++;
     	}		
@@ -140,6 +144,7 @@ public class FXMLDocumentController implements Initializable {
 		
     }
     
+    /// select data from table onClick
     @FXML
 	private void displaySelected(MouseEvent event) {
 		Lab person = tableview.getSelectionModel().getSelectedItem();
@@ -154,8 +159,10 @@ public class FXMLDocumentController implements Initializable {
 		}
 	}
     
+    
+    // Add data from one table to another table
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    void handleButtonAction(ActionEvent event) {
     	
     	
     	Lab person = tableview.getSelectionModel().getSelectedItem();
@@ -163,9 +170,9 @@ public class FXMLDocumentController implements Initializable {
     	String bname=person.getTestName();
     	String blab=person.getLab();
     	
+    	//////////////////
+    	
     	filterField.setText("");
-    	
-    	
     	
     	dat.add(new Lab(bcode,bname,blab));
     
@@ -175,4 +182,36 @@ public class FXMLDocumentController implements Initializable {
     	
     }
     
+    /// remove Data from Selected table
+    @FXML
+    private void removeData(ActionEvent event) {
+    	
+    	tableviewselectedlist.getItems().removeAll(tableviewselectedlist.getSelectionModel().getSelectedItems());
+    }
+    
+    
+    /// Save Selected data in File
+    @FXML
+    private void buttonSave(ActionEvent event) {
+    	Lab lab = new Lab();
+    	
+    	List<List<String>> arrList = new ArrayList<>();
+    	
+    	
+    	for(int i=0;i<tableviewselectedlist.getItems().size();i++) {
+    		lab=tableviewselectedlist.getItems().get(i);
+    		arrList.add(new ArrayList<>());
+    		arrList.get(i).add(lab.getTestCode());
+    		arrList.get(i).add(""+lab.getTestName());
+    		arrList.get(i).add(""+lab.getLab());
+
+    	}
+    	for(int i=0;i<arrList.size();i++) {
+    		for(int j=0;j<arrList.get(i).size();j++){
+    			System.out.print(arrList.get(i).get(j));
+    		}
+    	}
+    	
+    
+    }
 }
