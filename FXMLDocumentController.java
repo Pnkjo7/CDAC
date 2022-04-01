@@ -11,15 +11,20 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -28,6 +33,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 
 public class FXMLDocumentController implements Initializable {
 
@@ -57,7 +64,8 @@ public class FXMLDocumentController implements Initializable {
 	private TableColumn<Lab, String> cod;
 
 	@FXML
-	private Button btn;
+	private Button modifyBtn;
+
 
 	@FXML
 	private Label label;
@@ -72,13 +80,12 @@ public class FXMLDocumentController implements Initializable {
 	@FXML
 	private TableColumn<Lab, String> lab;
 	@FXML
-	private TableView<Lab> tableviewangio;
+	private TableColumn<Lab, String> actionCol;
+	
 	@FXML
-	private TableColumn<Lab, String> testCode1;
-	@FXML
-	private TableColumn<Lab, String> testName1;
-	@FXML
-	private TableColumn<Lab, String> lab1;
+	private CheckBox selectAll;
+	
+	
 	@FXML
 	private TableColumn<Lab, String> testCode2;
 	@FXML
@@ -92,12 +99,15 @@ public class FXMLDocumentController implements Initializable {
 	private final ObservableList<Lab> dat = FXCollections.observableArrayList();
 
 	// Observable list to store data
-	private final ObservableList<Lab> dataList = FXCollections.observableArrayList();
+	private ObservableList<Lab> dataList;
+	
+	private ObservableList<Lab> items;
 	
 	private final ObservableList<String> gender = FXCollections.observableArrayList("Male","Female");
 	
 	
 	private final ObservableList<String> department = FXCollections.observableArrayList("Emergency", "OPD","X-RAY","Cardio");
+	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		
@@ -148,20 +158,39 @@ public class FXMLDocumentController implements Initializable {
 		}});
 		
 		
+		selectAll.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends Boolean>observable, Boolean oldValue, Boolean newValue) {
+				System.out.println("Select All Selected");
+				items = tableview.getItems();
+				
+				for(Lab item : items) {
+					if(selectAll.isSelected())
+						item.getRemark().setSelected(true);
+					else
+						item.getRemark().setSelected(false);
+					
+				}
+			}
+			
+			
+		});
+		
+		
+		dataList = FXCollections.observableArrayList();
+		
+		items = FXCollections.observableArrayList();
 		
 		
 
-		// cod.setCellValueFactory(new PropertyValueFactory<>("cod"));
+		actionCol.setCellValueFactory(new PropertyValueFactory<Lab,String>("remark"));
+//		testCode.setCellValueFactory(new PropertyValueFactory<Lab,String>("testCode"));
+		testName.setCellValueFactory(new PropertyValueFactory<Lab,String>("testName"));
+		lab.setCellValueFactory(new PropertyValueFactory<Lab,String>("lab"));
 
-		testCode.setCellValueFactory(new PropertyValueFactory<>("testCode"));
-		testName.setCellValueFactory(new PropertyValueFactory<>("testName"));
-		lab.setCellValueFactory(new PropertyValueFactory<>("lab"));
 
-		testCode1.setCellValueFactory(new PropertyValueFactory<>("testCode"));
-		testName1.setCellValueFactory(new PropertyValueFactory<>("testName"));
-		lab1.setCellValueFactory(new PropertyValueFactory<>("lab"));
-
-		testCode2.setCellValueFactory(new PropertyValueFactory<>("testCode"));
+		
 		testName2.setCellValueFactory(new PropertyValueFactory<>("testName"));
 		lab2.setCellValueFactory(new PropertyValueFactory<>("lab"));
 
@@ -179,8 +208,9 @@ public class FXMLDocumentController implements Initializable {
 					LabTest[loc][2] = "" + st.nextToken();
 					LabTest[loc][3] = "" + st.nextToken();
 
-					dataList.addAll(new Lab(LabTest[loc][0] + LabTest[loc][2], LabTest[loc][3], LabTest[loc][1]));
+					dataList.addAll(new Lab(" ",LabTest[loc][3], LabTest[loc][1],""));
 
+					
 					loc++;
 				}
 			}
@@ -219,10 +249,11 @@ public class FXMLDocumentController implements Initializable {
 		sortedData.comparatorProperty().bind(tableview.comparatorProperty());
 
 		// 5. Add sorted (and filtered) data to the table.
+		
+		
 		tableview.setItems(sortedData);
 
-		// Add data in Table Angio Lab.
-		tableviewangio.setItems(dataList);
+		
 
 	}
 
@@ -245,14 +276,16 @@ public class FXMLDocumentController implements Initializable {
 	void handleButtonAction(ActionEvent event) {
 
 		Lab person = tableview.getSelectionModel().getSelectedItem();
+	 
 		String bcode = person.getTestCode();
 		String bname = person.getTestName();
 		String blab = person.getLab();
 		filterField.setText("");
-		dat.add(new Lab(bcode, bname, blab));
+		dat.add(new Lab("", bname, blab,""));
 		tableviewselectedlist.setItems(dat);
-
 	}
+		
+	
 
 	/// remove Data from Selected table
 	@FXML
@@ -279,7 +312,7 @@ public class FXMLDocumentController implements Initializable {
 		sb.append(txt_mobileNo.getText().toString()+"@");
 		sb.append(txt_visitDate.getText().toString()+"@");
 		sb.append(txt_department.getValue().toString()+"@");
-		sb.append(txt_diagnosis.getText().toString());
+		sb.append(txt_diagnosis.getText().toString()+"@");
 		
 		
 		
@@ -302,14 +335,15 @@ public class FXMLDocumentController implements Initializable {
 				file.createNewFile();
 			}
 
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(sb.toString());
 			for (int i = 0; i < arrList.size(); i++) {
 				for (int j = 0; j < arrList.get(i).size(); j++) {
 					bw.write(arrList.get(i).get(j) + "@");
-				}
+					}
 			}
+			bw.write("\n");
 			bw.close();
 			fw.close();
 
@@ -317,4 +351,23 @@ public class FXMLDocumentController implements Initializable {
 			ex.printStackTrace();
 		}
 	}
+	
+	@FXML
+	public void modifyButton(ActionEvent event)  {
+		
+		try {
+			Parent root1 = FXMLLoader.load(getClass().getResource("Modify.fxml"));
+		
+			Stage stage = new Stage();
+	
+			stage.setTitle("Modify");
+			stage.setScene(new Scene(root1));
+			stage.show();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		}
+	
 }
