@@ -1,29 +1,24 @@
 package application;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.CheckBox;
 
 public class Lab {    
 
-    private SimpleStringProperty cod;
-
-    
-	protected SimpleStringProperty testCode;
+    protected SimpleStringProperty testCode;
 	protected SimpleStringProperty testName;
 	protected SimpleStringProperty lab;
-    
-    
- 
+	protected CheckBox remark;
     
     public Lab() {
 	}
-
-
-	public Lab(String ID, String TESTNAME, String LAB)
+	public Lab(String ID, String TESTNAME, String LAB, String value)
     {      
-       this.cod = new SimpleStringProperty();
+       //this.cod = new SimpleStringProperty();
        this.testCode = new SimpleStringProperty(ID);
        this.testName = new SimpleStringProperty(TESTNAME);
        this.lab =  new SimpleStringProperty(LAB);
+       this.remark = new CheckBox();
     }
     
      
@@ -54,10 +49,17 @@ public class Lab {
     public void setLab(String LAB) {
         lab.set(LAB);
     }
+    
+    
+    public CheckBox getRemark() {
+    	return remark;
+    }
+    
+    public void setRemark(CheckBox remark) {
+    	this.remark = remark;
+    }
 
 
-	public SimpleStringProperty getCod() {
-		return cod;
-	}
+
 
     }
