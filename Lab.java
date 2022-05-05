@@ -8,7 +8,7 @@ public class Lab {
     protected SimpleStringProperty testCode;
 	protected SimpleStringProperty testName;
 	protected SimpleStringProperty lab;
-	protected CheckBox remark;
+	public CheckBox remark;
     
     public Lab() {
 	}
