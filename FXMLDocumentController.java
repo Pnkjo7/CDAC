@@ -4,15 +4,16 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -24,25 +25,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 public class FXMLDocumentController implements Initializable {
-
 	@FXML
 	private TextField txt_crNo;
-	
 	@FXML
-	private TextField txt_PatientName;
+	TextField txt_PatientName;
 	@FXML
 	private TextField txt_age;
 	@FXML
@@ -50,23 +49,19 @@ public class FXMLDocumentController implements Initializable {
 	@FXML
 	private TextField txt_mobileNo;
 	@FXML
-	private TextField txt_visitDate;
+	private DatePicker txt_visitDate;
+	@FXML
+	private TextField txt_Location;
 	@FXML
 	private ComboBox<String> txt_department;
-	
 	@FXML
 	private TextField txt_diagnosis;
-
 	@FXML
 	VBox aaa;
-
 	@FXML
 	private TableColumn<Lab, String> cod;
-
 	@FXML
 	private Button modifyBtn;
-
-
 	@FXML
 	private Label label;
 	@FXML
@@ -81,119 +76,88 @@ public class FXMLDocumentController implements Initializable {
 	private TableColumn<Lab, String> lab;
 	@FXML
 	private TableColumn<Lab, String> actionCol;
-	
-	@FXML
-	private CheckBox selectAll;
-	
-	
 	@FXML
 	private TableColumn<Lab, String> testCode2;
 	@FXML
 	private TableColumn<Lab, String> testName2;
 	@FXML
 	private TableColumn<Lab, String> lab2;
-
 	@FXML
 	private TableView<Lab> tableviewselectedlist;
 
+	static String loc = "", Lab = "", Coll = "", Pat = "";
 	private final ObservableList<Lab> dat = FXCollections.observableArrayList();
-
-	// Observable list to store data
 	private ObservableList<Lab> dataList;
-	
 	private ObservableList<Lab> items;
-	
-	private final ObservableList<String> gender = FXCollections.observableArrayList("Male","Female");
-	
-	
-	private final ObservableList<String> department = FXCollections.observableArrayList("Emergency", "OPD","X-RAY","Cardio");
-	
+	private final ObservableList<String> gender = FXCollections.observableArrayList("Male", "Female");
+	private final ObservableList<String> department = FXCollections.observableArrayList("Emergency", "OPD", "X-RAY",
+			"Cardio");
+
+	@FXML
+	private Label time;
+	private volatile boolean stop = false;
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		
-		
+		CurrentTime();
 		txt_gender.setItems(gender);
 		txt_department.setItems(department);
-		
-		txt_crNo.textProperty().addListener((observable, oldValue, newValue)->{
-			if(!newValue.matches("\\d*")){
-					txt_crNo.setText(newValue.replaceAll("[^\\d]",""));
-					
-		}if(newValue.length()==16) {
-			txt_crNo.setText(oldValue);
-		}
-		});
-		
-		
-		txt_PatientName.textProperty().addListener((observable, oldValue, newValue)->{
-			if(!newValue.matches("\\sa-zA-Z*")){
-				txt_PatientName.setText(newValue.replaceAll("[^\\sa-zA-Z]",""));
-					
-		}});
-		
-		txt_age.textProperty().addListener((observable, oldValue, newValue)->{
-			if(!newValue.matches("\\d*")){
-				txt_age.setText(newValue.replaceAll("[^\\d]",""));
-					
-		}if(newValue.length()==3) {
-			txt_age.setText(oldValue);
-		}
-		});
-		
-		txt_mobileNo.textProperty().addListener((observable, oldValue, newValue)->{
-			if(!newValue.matches("\\d*")){
-				txt_mobileNo.setText(newValue.replaceAll("[^\\d]",""));
-					
-		}if(newValue.length()==11) {
-			txt_mobileNo.setText(oldValue);
-		}
-		});
-		
-		
 
-		txt_diagnosis.textProperty().addListener((observable, oldValue, newValue)->{
-			if(!newValue.matches("\\sa-zA-Z*")){
-				txt_diagnosis.setText(newValue.replaceAll("[^\\sa-zA-Z]",""));
-					
-		}});
-		
-		
-		selectAll.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			
-			@Override
-			public void changed(ObservableValue<? extends Boolean>observable, Boolean oldValue, Boolean newValue) {
-				System.out.println("Select All Selected");
-				items = tableview.getItems();
-				
-				for(Lab item : items) {
-					if(selectAll.isSelected())
-						item.getRemark().setSelected(true);
-					else
-						item.getRemark().setSelected(false);
-					
-				}
+		txt_crNo.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("\\d*")) {
+				txt_crNo.setText(newValue.replaceAll("[^\\d]", ""));
+
 			}
-			
-			
+			if (newValue.length() == 16) {
+				txt_crNo.setText(oldValue);
+			}
 		});
-		
-		
+		txt_PatientName.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("\\sa-zA-Z*")) {
+				txt_PatientName.setText(newValue.replaceAll("[^\\sa-zA-Z]", ""));
+
+			}
+		});
+
+		txt_age.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("\\d*")) {
+				txt_age.setText(newValue.replaceAll("[^\\d]", ""));
+
+			}
+			if (newValue.length() == 3) {
+				txt_age.setText(oldValue);
+			}
+		});
+
+		txt_mobileNo.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("\\d*")) {
+				txt_mobileNo.setText(newValue.replaceAll("[^\\d]", ""));
+
+			}
+			if (newValue.length() == 11) {
+				txt_mobileNo.setText(oldValue);
+			}
+		});
+		txt_Location.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("\\sa-zA-Z*")) {
+				txt_Location.setText(newValue.replaceAll("[^\\sa-zA-Z]", ""));
+
+			}
+		});
+		txt_diagnosis.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("\\sa-zA-Z*")) {
+				txt_diagnosis.setText(newValue.replaceAll("[^\\sa-zA-Z]", ""));
+			}
+		});
 		dataList = FXCollections.observableArrayList();
-		
 		items = FXCollections.observableArrayList();
-		
-		
-
-		actionCol.setCellValueFactory(new PropertyValueFactory<Lab,String>("remark"));
+		actionCol.setCellValueFactory(new PropertyValueFactory<Lab, String>("remark"));
 //		testCode.setCellValueFactory(new PropertyValueFactory<Lab,String>("testCode"));
-		testName.setCellValueFactory(new PropertyValueFactory<Lab,String>("testName"));
-		lab.setCellValueFactory(new PropertyValueFactory<Lab,String>("lab"));
-
-
-		
+		testName.setCellValueFactory(new PropertyValueFactory<Lab, String>("testName"));
+		lab.setCellValueFactory(new PropertyValueFactory<Lab, String>("lab"));
 		testName2.setCellValueFactory(new PropertyValueFactory<>("testName"));
 		lab2.setCellValueFactory(new PropertyValueFactory<>("lab"));
-
+		tableviewselectedlist.setPlaceholder(new Label("No Test Selected"));
 		String LabTest[][] = new String[500][6];
 		File masterfile = new File("Lab_Master.txt");
 		int loc = 0;
@@ -205,12 +169,9 @@ public class FXMLDocumentController implements Initializable {
 				while (st.hasMoreTokens()) {
 					LabTest[loc][0] = "" + st.nextToken();
 					LabTest[loc][1] = "" + st.nextToken();
-					LabTest[loc][2] = "" + st.nextToken();
 					LabTest[loc][3] = "" + st.nextToken();
 
-					dataList.addAll(new Lab(" ",LabTest[loc][3], LabTest[loc][1],""));
-
-					
+					dataList.addAll(new Lab(" ", LabTest[loc][3], LabTest[loc][1], ""));
 					loc++;
 				}
 			}
@@ -228,7 +189,6 @@ public class FXMLDocumentController implements Initializable {
 				if (newValue == null || newValue.isEmpty()) {
 					return true;
 				}
-
 				// Compare first name and last name of every person with filter text.
 				String lowerCaseFilter = newValue.toLowerCase();
 
@@ -240,7 +200,6 @@ public class FXMLDocumentController implements Initializable {
 					return false; // Does not match.
 			});
 		});
-
 		// 3. Wrap the FilteredList in a SortedList.
 		SortedList<Lab> sortedData = new SortedList<>(filteredData);
 
@@ -249,13 +208,20 @@ public class FXMLDocumentController implements Initializable {
 		sortedData.comparatorProperty().bind(tableview.comparatorProperty());
 
 		// 5. Add sorted (and filtered) data to the table.
-		
-		
 		tableview.setItems(sortedData);
-
-		
-
 	}
+
+	/*
+	 * 
+	 * public void preview(ActionEvent event) throws IOException{ Stage stage = new
+	 * Stage(); stage.initModality(Modality.APPLICATION_MODAL);
+	 * stage.initOwner((((Node) event.getSource()).getScene().getWindow())); Parent
+	 * root =FXMLLoader.load(getClass().getResource("Preview.fxml")); Scene scene =
+	 * new Scene(root); stage.setTitle("Preview"); stage.setScene(scene);
+	 * stage.show();
+	 * 
+	 * }
+	 */
 
 	/// select data from table onClick
 	@FXML
@@ -275,47 +241,78 @@ public class FXMLDocumentController implements Initializable {
 	@FXML
 	void handleButtonAction(ActionEvent event) {
 
-		Lab person = tableview.getSelectionModel().getSelectedItem();
-	 
-		String bcode = person.getTestCode();
-		String bname = person.getTestName();
-		String blab = person.getLab();
-		filterField.setText("");
-		dat.add(new Lab("", bname, blab,""));
-		tableviewselectedlist.setItems(dat);
-	}
-		
-	
+		tableviewselectedlist.getItems().clear();
+		for (Lab lb : tableview.getItems()) {
+			if (lb.getRemark().isSelected()) {
 
-	/// remove Data from Selected table
+				tableviewselectedlist.getItems().add(lb);
+				// lb.remark.setSelected(false);
+
+			}
+			/*
+			 * tableviewselectedlist.setRowFactory(t -> new TableRow<Lab>() {
+			 * 
+			 * @Override protected void updateItem(Lab lb, boolean empty) { if (lb == null)
+			 * { this.setTextFill(Color.ANTIQUEWHITE); } //System.err.println("0");} else {
+			 * this.setTextFill(Color.YELLOWGREEN); //System.err.println("1"); } } });
+			 */
+
+		}
+
+	}
+
+/// remove Data from Selected table
 	@FXML
 	private void removeData(ActionEvent event) {
 
-		tableviewselectedlist.getItems().removeAll(tableviewselectedlist.getSelectionModel().getSelectedItems());
+		
+				for (Lab lb : tableviewselectedlist.getSelectionModel().getSelectedItems()) {
+					if (lb.getRemark().isSelected()) {
+
+						lb.remark.setSelected(false);
+						tableviewselectedlist.getItems().removeAll(tableviewselectedlist.getSelectionModel().getSelectedItems());
+					}else
+					{System.out.print("NO Test");}
+
+
+				}
+
+		
+		
 	}
 
 	/// Save Selected data in File
+	static String Labs = "";
+
 	@FXML
 	private void buttonSave(ActionEvent event) {
-		
+
+		loc = txt_Location.getText();
+		Pat = txt_PatientName.getText();
+
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YY");
+		formatter.format(date);
+		String str = formatter.format(date);
+		Coll = str;
+
 		StringBuilder sb = new StringBuilder();
 		Random rand = new Random();
 		int rand_num = rand.nextInt();
-		
-		String str_num="1005"+rand_num;
-		
-		sb.append(str_num.toString()+"@");
-		sb.append(txt_crNo.getText().toString()+"@");
-		sb.append(txt_PatientName.getText().toString()+"@");
-		sb.append(txt_age.getText().toString()+"@");
-		sb.append(txt_gender.getValue().toString()+"@");
-		sb.append(txt_mobileNo.getText().toString()+"@");
-		sb.append(txt_visitDate.getText().toString()+"@");
-		sb.append(txt_department.getValue().toString()+"@");
-		sb.append(txt_diagnosis.getText().toString()+"@");
-		
-		
-		
+
+		String str_num = "1005" + rand_num;
+
+		sb.append(str_num.toString() + "@");
+		// sb.append(txt_crNo.getText().toString() + "@");
+		sb.append(txt_PatientName.getText().toString() + "@");
+		// sb.append(txt_age.getText().toString() + "@");
+		// sb.append(txt_gender.getValue().toString() + "@");
+		// sb.append(txt_mobileNo.getText().toString() + "@");
+		// sb.append(txt_visitDate.getValue().toString() + "@");
+
+		sb.append(txt_Location.getText().toString() + "@");
+		// sb.append(txt_department.getValue().toString() + "@");
+		// sb.append(txt_diagnosis.getText().toString() + "@");
 		Lab lab = new Lab();
 
 		List<List<String>> arrList = new ArrayList<>();
@@ -326,22 +323,24 @@ public class FXMLDocumentController implements Initializable {
 			arrList.get(i).add(lab.getTestCode());
 			arrList.get(i).add("" + lab.getTestName());
 			arrList.get(i).add("" + lab.getLab());
-			
-
+			Labs = Labs + lab.getLab() + "@";
 		}
+
+		Lab = Labs;
+
 		try {
 			File file = new File("Investigation_data.txt");
 			if (!file.exists()) {
 				file.createNewFile();
 			}
 
-			FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(sb.toString());
 			for (int i = 0; i < arrList.size(); i++) {
 				for (int j = 0; j < arrList.get(i).size(); j++) {
 					bw.write(arrList.get(i).get(j) + "@");
-					}
+				}
 			}
 			bw.write("\n");
 			bw.close();
@@ -350,16 +349,32 @@ public class FXMLDocumentController implements Initializable {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		try {
+
+			Parent root1 = FXMLLoader.load(getClass().getResource("Preview.fxml"));
+
+			Stage stage = new Stage();
+
+			stage.setTitle("Preview");
+			stage.setScene(new Scene(root1));
+			Image I = new Image(getClass().getResourceAsStream("laboratory-test.png"));
+			stage.getIcons().add(I);
+			stage.show();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
-	
+
 	@FXML
-	public void modifyButton(ActionEvent event)  {
-		
+	public void modifyButton(ActionEvent event) {
+
 		try {
 			Parent root1 = FXMLLoader.load(getClass().getResource("Modify.fxml"));
-		
+
 			Stage stage = new Stage();
-	
+
 			stage.setTitle("Modify");
 			stage.setScene(new Scene(root1));
 			stage.show();
@@ -367,7 +382,26 @@ public class FXMLDocumentController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		}
-	
+
+	}
+
+	//// Show date and time function in Pane
+	private void CurrentTime() {
+		Thread thread = new Thread(() -> {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
+			while (!stop) {
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					System.out.println(e);
+
+				}
+				final String timenow = sdf.format(new Date());
+				Platform.runLater(() -> {
+					time.setText(timenow);
+				});
+			}
+		});
+		thread.start();
+	}
 }
