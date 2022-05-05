@@ -2,88 +2,108 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLDocumentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FXMLDocumentController">
    <children>
     <AnchorPane layoutX="1.0" layoutY="-10.0" minHeight="0.0" minWidth="0.0" prefHeight="410.0" prefWidth="839.0">
          <children>
-            <Label layoutX="10.0" layoutY="16.0" text="Patient Details">
+            <Label layoutX="10.0" layoutY="16.0" text="Patient Details" textFill="#171616">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Label>
-            <Label layoutX="11.0" layoutY="56.0" text="CR No." />
-            <Label layoutX="238.0" layoutY="55.0" text="Patient Name" />
-            <Label layoutX="476.0" layoutY="53.0" prefHeight="9.0" prefWidth="22.0" text="Age" />
-            <Label layoutX="549.0" layoutY="55.0" text="Gender" />
-            <Label layoutX="682.0" layoutY="55.0" text="Mobile No." />
-            <Label layoutX="11.0" layoutY="87.0" text="Episode Details">
+            <Label layoutX="11.0" layoutY="56.0" text="CR No." textFill="#1e1e1e" />
+            <Label layoutX="238.0" layoutY="55.0" text="Patient Name" textFill="#252323" />
+            <Label layoutX="446.0" layoutY="53.0" prefHeight="9.0" prefWidth="22.0" text="Age" textFill="#1e1d1d" />
+            <Label layoutX="517.0" layoutY="53.0" text="Gender" textFill="#1e1e1e" />
+            <Label layoutX="684.0" layoutY="55.0" text="Mobile No." textFill="#111010" />
+            <Label layoutX="11.0" layoutY="87.0" text="Episode Details" textFill="#171616">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font></Label>
-            <Label layoutX="12.0" layoutY="121.0" text="Visit Date" />
-            <Label layoutX="262.0" layoutY="120.0" text="Depatrment/Unit" />
-            <Label layoutX="568.0" layoutY="116.0" text="Diagnosis" />
-            <TextField fx:id="txt_crNo" layoutX="57.0" layoutY="51.0" prefHeight="25.0" prefWidth="174.0" promptText="Scan QR Code/ Enter CR NO." />
-            <TextField fx:id="txt_PatientName" layoutX="317.0" layoutY="49.0" prefHeight="25.0" prefWidth="149.0" />
-            <TextField fx:id="txt_age" layoutX="504.0" layoutY="49.0" prefHeight="25.0" prefWidth="31.0" />
-            <ComboBox fx:id="txt_gender" layoutX="594.0" layoutY="49.0" prefHeight="25.0" prefWidth="81.0" />
-            <TextField fx:id="txt_mobileNo" layoutX="749.0" layoutY="49.0" prefHeight="25.0" prefWidth="81.0" />
-            <TextField fx:id="txt_visitDate" layoutX="77.0" layoutY="117.0" prefHeight="25.0" prefWidth="161.0" />
-            <ComboBox fx:id="txt_department" layoutX="361.0" layoutY="115.0" prefHeight="25.0" prefWidth="184.0" />
-            <TextField fx:id="txt_diagnosis" layoutX="630.0" layoutY="111.0" prefHeight="25.0" prefWidth="127.0" />
-            <Label layoutX="8.0" layoutY="170.0" text="Test/Lab Name" />
-            <TextField fx:id="filterField" layoutX="96.0" layoutY="166.0" prefHeight="25.0" prefWidth="693.0" promptText="Search Test" />
-            <Button layoutX="797.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Add" />
-            <VBox fx:id="aaa" layoutX="5.0" layoutY="205.0" prefHeight="181.0" prefWidth="829.0">
+            <Label layoutX="14.0" layoutY="118.0" text="Visit Date" textFill="#323131" />
+            <Label layoutX="413.0" layoutY="118.0" text="Depatrment" textFill="#1e1d1d" />
+            <Label layoutX="647.0" layoutY="117.0" text="Diagnosis" textFill="#252323" />
+            <TextField fx:id="txt_crNo" layoutX="57.0" layoutY="51.0" prefHeight="25.0" prefWidth="173.0" promptText="Scan QR Code/ Enter CR NO." />
+            <TextField fx:id="txt_PatientName" layoutX="317.0" layoutY="49.0" prefHeight="25.0" prefWidth="120.0" />
+            <TextField fx:id="txt_age" layoutX="477.0" layoutY="49.0" prefHeight="25.0" prefWidth="31.0" />
+            <ComboBox fx:id="txt_gender" layoutX="560.0" layoutY="49.0" prefHeight="25.0" prefWidth="120.0" promptText="Select Gender" />
+            <TextField fx:id="txt_mobileNo" layoutX="749.0" layoutY="49.0" prefHeight="25.0" prefWidth="91.0" />
+            <ComboBox fx:id="txt_department" layoutX="488.0" layoutY="113.0" prefHeight="25.0" prefWidth="149.0" promptText="Select Department" />
+            <TextField fx:id="txt_diagnosis" layoutX="709.0" layoutY="113.0" prefHeight="25.0" prefWidth="130.0" />
+            <Line endY="41.0" startX="849.0" startY="41.0" />
+            <Label layoutX="10.0" layoutY="169.0" prefHeight="20.0" prefWidth="94.0" text="Investigations" textFill="#1e1e1e">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <TextField fx:id="filterField" layoutX="116.0" layoutY="166.0" prefHeight="25.0" prefWidth="673.0" promptText="Search Test" />
+            <Button layoutX="795.0" layoutY="161.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="20.0" prefWidth="37.0" style="-fx-background-color: #397cae;">
+               <graphic>
+                  <FontAwesomeIcon fill="#f5f4f4" glyphName="PLUS_CIRCLE" size="2em" />
+               </graphic></Button>
+            <VBox fx:id="aaa" layoutX="7.0" layoutY="205.0" prefHeight="181.0" prefWidth="825.0">
                <children>
-                  <CheckBox fx:id="selectAll" mnemonicParsing="false" text="Select all">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </CheckBox>
-                  <TableView fx:id="tableview" onMouseClicked="#displaySelected" prefHeight="168.0" prefWidth="829.0">
+                  <TableView fx:id="tableview" onMouseClicked="#displaySelected">
                     <columns>
-                        <TableColumn fx:id="actionCol" prefWidth="75.0" text="Select" />
+                        <TableColumn fx:id="actionCol" prefWidth="41.0" text="Select" />
                         
-                              <TableColumn fx:id="testName" prefWidth="285.0" text="Test" />
-                        <TableColumn fx:id="lab" prefWidth="468.0" text="Laboratory" />
+                              <TableColumn fx:id="testName" minWidth="0.0" prefWidth="342.0" text="Test" />
+                        <TableColumn fx:id="lab" prefWidth="419.0" text="Laboratory" />
                     </columns>
                   </TableView>
                </children>
             </VBox>
-            <Button layoutX="774.0" layoutY="109.0" mnemonicParsing="false" onAction="#modifyButton" text="Modify" />
-            <TableView fx:id="tableviewselectedlist" layoutX="5.0" layoutY="408.0" prefHeight="187.0" prefWidth="829.0">
+            <TableView fx:id="tableviewselectedlist" layoutX="7.0" layoutY="408.0" prefHeight="192.0" prefWidth="825.0">
               <columns>
-                  <TableColumn fx:id="testName2" prefWidth="358.0000534057617" text="Test" />
-                  <TableColumn fx:id="lab2" prefWidth="409.0" text="Laboratory" />
+                  <TableColumn fx:id="testName2" prefWidth="359.0" resizable="false" style="-fx-text-fill: Blue;" text="Test" />
+                  <TableColumn fx:id="lab2" maxWidth="472.0" minWidth="-1.0" prefWidth="448.0" resizable="false" style="-fx-text-fill: Blue;" text="Laboratory" />
               </columns>
             </TableView>
-            <Label layoutX="10.0" layoutY="391.0" text="Selected Test Name:">
+            <Label layoutX="10.0" layoutY="386.0" text="Selected Test Name:" textFill="#393939">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
+            <Label layoutX="602.0" layoutY="18.0" text="Date &amp; Time: " textFill="#252424" />
+            <Label fx:id="time" layoutX="683.0" layoutY="18.0" prefHeight="17.0" prefWidth="149.0" textFill="#171717">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <DatePicker fx:id="txt_visitDate" layoutX="76.0" layoutY="114.0" prefHeight="25.0" prefWidth="130.0" />
+            <Line endX="-16.0" endY="91.33333587646484" layoutX="15.0" layoutY="16.0" startX="834.0" startY="91.33333587646484" />
+            <Label layoutX="216.0" layoutY="118.0" text="Location" />
+            <TextField fx:id="txt_Location" layoutX="272.0" layoutY="114.0" prefHeight="25.0" prefWidth="130.0" />
             
                      </children>
       </AnchorPane>
-      <Button layoutX="368.0" layoutY="599.0" mnemonicParsing="false" onAction="#buttonSave" prefHeight="41.0" prefWidth="52.0">
-         <graphic>
-            <FontAwesomeIcon glyphName="SAVE" size="3em" tabSize="20" />
-         </graphic>
-      </Button>
-      <Button layoutX="458.0" layoutY="599.0" mnemonicParsing="false" onAction="#removeData" prefHeight="41.0" prefWidth="51.0">
-         <graphic>
-            <FontAwesomeIcon glyphName="TIMES" size="3em" tabSize="20" text="" wrappingWidth="31.333333333333258" />
-         </graphic>
-      </Button>
+      <HBox layoutX="292.0" layoutY="598.0" prefHeight="46.0" prefWidth="302.0" spacing="70.0" AnchorPane.bottomAnchor="6.0" AnchorPane.topAnchor="598.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#buttonSave" prefHeight="41.0" prefWidth="52.0" style="-fx-background-color: #397cae;">
+               <graphic>
+                  <FontAwesomeIcon fill="#eeebeb" glyphName="SAVE" size="3em" tabSize="20" />
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#removeData" prefHeight="41.0" prefWidth="52.0" style="-fx-background-color: #397cae;">
+               <graphic>
+                  <FontAwesomeIcon fill="#f8f5f5" glyphName="TIMES" size="3em" tabSize="20" text="" wrappingWidth="31.333333333333258" />
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#modifyButton" prefHeight="41.0" prefWidth="52.0" style="-fx-background-color: #397cae;">
+               <graphic>
+                  <FontAwesomeIcon fill="#fff7f7" glyphName="PENCIL_SQUARE_ALT" size="3em" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
