@@ -23,7 +23,7 @@
                   <Font name="System Bold" size="14.0" />
                </font></Label>
             <Label layoutX="11.0" layoutY="56.0" text="CR No." textFill="#1e1e1e" />
-            <Label layoutX="238.0" layoutY="55.0" text="Patient Name" textFill="#252323" />
+            <Label layoutX="235.0" layoutY="55.0" text="Patient Name" textFill="#252323" />
             <Label layoutX="446.0" layoutY="53.0" prefHeight="9.0" prefWidth="22.0" text="Age" textFill="#1e1d1d" />
             <Label layoutX="517.0" layoutY="53.0" text="Gender" textFill="#1e1e1e" />
             <Label layoutX="684.0" layoutY="55.0" text="Mobile No." textFill="#111010" />
@@ -34,7 +34,7 @@
             <Label layoutX="14.0" layoutY="118.0" text="Visit Date" textFill="#323131" />
             <Label layoutX="413.0" layoutY="118.0" text="Depatrment" textFill="#1e1d1d" />
             <Label layoutX="647.0" layoutY="117.0" text="Diagnosis" textFill="#252323" />
-            <TextField fx:id="txt_crNo" layoutX="57.0" layoutY="51.0" prefHeight="25.0" prefWidth="173.0" promptText="Scan QR Code/ Enter CR NO." />
+            <TextField fx:id="txt_crNo" layoutX="58.0" layoutY="51.0" prefHeight="25.0" prefWidth="167.0" promptText="Scan QR Code/ Enter CR NO." />
             <TextField fx:id="txt_PatientName" layoutX="317.0" layoutY="49.0" prefHeight="25.0" prefWidth="120.0" />
             <TextField fx:id="txt_age" layoutX="477.0" layoutY="49.0" prefHeight="25.0" prefWidth="31.0" />
             <ComboBox fx:id="txt_gender" layoutX="560.0" layoutY="49.0" prefHeight="25.0" prefWidth="120.0" promptText="Select Gender" />
