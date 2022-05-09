@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="430.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ModifyCo">
+   <children>
+      <Button layoutX="360.0" layoutY="10.0" mnemonicParsing="false" onAction="#checkID" text="Submit" />
+      <Label layoutX="14.0" layoutY="14.0" text="CR number" />
+      <TextField fx:id="check_crNo" layoutX="136.0" layoutY="10.0" />
+      <TableView fx:id="upd_tableview" layoutX="12.0" layoutY="224.0" prefHeight="138.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="utestCode" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="utestName" prefWidth="257.0" text="TestName" />
+            <TableColumn fx:id="ulab" prefWidth="267.0" text="Laboratory" />
+        </columns>
+      </TableView>
+      <Button layoutX="285.0" layoutY="382.0" mnemonicParsing="false" text="Update" />
+      <Label layoutX="32.0" layoutY="58.0" text="Name" />
+      <Label layoutX="37.0" layoutY="103.0" text="Age" />
+      <Label layoutX="28.0" layoutY="139.0" text="Gender" />
+      <Label layoutX="19.0" layoutY="169.0" text="Mobile no." />
+      <TextField fx:id="upd_name" layoutX="136.0" layoutY="54.0" />
+      <TextField fx:id="upd_age" layoutX="136.0" layoutY="90.0" />
+      <TextField fx:id="upd_gender" layoutX="136.0" layoutY="126.0" />
+      <TextField fx:id="upd_mobileNo" layoutX="136.0" layoutY="165.0" />
+   </children>
+</AnchorPane>
