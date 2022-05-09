@@ -84,7 +84,7 @@ public class FXMLDocumentController implements Initializable {
 	private TableColumn<Lab, String> lab2;
 	@FXML
 	private TableView<Lab> tableviewselectedlist;
-
+	static int si=0;
 	static String loc = "", Lab = "", Coll = "", Pat = "";
 	private final ObservableList<Lab> dat = FXCollections.observableArrayList();
 	private ObservableList<Lab> dataList;
@@ -246,6 +246,8 @@ public class FXMLDocumentController implements Initializable {
 			if (lb.getRemark().isSelected()) {
 
 				tableviewselectedlist.getItems().add(lb);
+
+				
 				// lb.remark.setSelected(false);
 
 			}
@@ -286,7 +288,7 @@ public class FXMLDocumentController implements Initializable {
 
 	@FXML
 	private void buttonSave(ActionEvent event) {
-
+		si=tableviewselectedlist.getItems().size();
 		loc = txt_Location.getText();
 		Pat = txt_PatientName.getText();
 
@@ -327,6 +329,8 @@ public class FXMLDocumentController implements Initializable {
 		}
 
 		Lab = Labs;
+	
+		
 
 		try {
 			File file = new File("Investigation_data.txt");
